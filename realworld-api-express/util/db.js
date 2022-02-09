@@ -29,8 +29,8 @@ const config = {
   password: "hch08124512",
   database: "apitest",
 };
-//
-exports.db = (sql, sqlParams) => {
+// []  {} [{} ,id]
+exports.db = (sql, sqlParams = []) => {
   return new Promise((resolve, reject) => {
     const pool = mysql.createPool(config);
     pool.getConnection((err, conn) => {
