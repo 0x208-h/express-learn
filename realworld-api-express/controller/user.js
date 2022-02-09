@@ -1,6 +1,9 @@
+const { db } = require("../util/db");
+
 // 用户注册
 exports.register = async function (req, res, next) {
   try {
+    console.log(req.body, "body");
     res.send("post users");
   } catch (err) {
     next(err);
@@ -18,7 +21,11 @@ exports.login = async function (req, res, next) {
 //获取当前登录用户
 exports.getCurrentUser = async function (req, res, next) {
   try {
-    res.send("get user");
+    // res.send("get user");
+    const sql = "select * from cate";
+    const ret = await db(sql, null);
+    console.log(ret, "res");
+    res.send(ret);
   } catch (err) {
     next(err);
   }
