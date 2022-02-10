@@ -27,7 +27,7 @@ const config = {
   port: 3306,
   user: "root",
   password: "hch08124512",
-  database: "apitest",
+  database: "realworld",
 };
 // []  {} [{} ,id]
 exports.db = (sql, sqlParams = []) => {

@@ -4,7 +4,10 @@ const { db } = require("../util/db");
 exports.register = async function (req, res, next) {
   try {
     console.log(req.body, "body");
-    res.send("post users");
+    const sql = "INSERT INTO users SET ?";
+    const ret = await db(sql, req.body);
+    console.log(ret, "res");
+    res.send(ret);
   } catch (err) {
     next(err);
   }
@@ -22,8 +25,8 @@ exports.login = async function (req, res, next) {
 exports.getCurrentUser = async function (req, res, next) {
   try {
     // res.send("get user");
-    const sql = "select * from cate";
-    const ret = await db(sql, null);
+    const sql = "select * from users";
+    const ret = await db(sql);
     console.log(ret, "res");
     res.send(ret);
   } catch (err) {
