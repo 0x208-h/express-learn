@@ -7,7 +7,7 @@ exports.register = async function (req, res, next) {
     const sql = "INSERT INTO users SET ?";
     const ret = await db(sql, req.body);
     console.log(ret, "res");
-    res.send(ret);
+    res.status(201).send(req.body);
   } catch (err) {
     next(err);
   }
