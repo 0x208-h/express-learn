@@ -1,11 +1,15 @@
 const { db } = require("../util/db");
-
+const md5 = require("../util/md5");
 // 用户注册
 exports.register = async function (req, res, next) {
   try {
+    const data = {
+      ...req.body,
+      password: md5(req.body.password),
+    };
     console.log(req.body, "body");
     const sql = "INSERT INTO users SET ?";
-    const ret = await db(sql, req.body);
+    const ret = await db(sql, data);
     console.log(ret, "res");
     res.status(201).send(req.body);
   } catch (err) {

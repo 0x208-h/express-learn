@@ -10,7 +10,7 @@ exports.register = validate([
     .custom(async (value, { req }) => {
       console.log(value, "value", req.body);
       const user = await db("select * from users where username = ?", [value]);
-      if (user) {
+      if (user.length > 0) {
         return Promise.reject("用户名已经存在 ");
       }
     }),
