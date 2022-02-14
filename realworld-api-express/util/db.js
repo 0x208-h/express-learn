@@ -30,21 +30,39 @@ const config = {
   database: "realworld",
 };
 // []  {} [{} ,id]
-exports.db = (sql, sqlParams = []) => {
+exports.db = (sql, sqlParams) => {
+  // sqlParams = sqlParams || [];
   return new Promise((resolve, reject) => {
     const pool = mysql.createPool(config);
     pool.getConnection((err, conn) => {
       if (!err) {
-        conn.query(sql, sqlParams, (error, results) => {
-          if (!error) {
-            // console.log(results, "results");
-            resolve(results);
-            conn.release();
-          } else {
-            console.log("sql", error);
-            reject(error);
+        // conn.query(sql, sqlParams, (error, results) => {
+        //   if (!error) {
+        //     console.log(results, "results");
+        //     resolve(results);
+        //     conn.destroy();
+        //   } else {
+        //     console.log("sql", error);
+        //     reject(error);
+        //   }
+        // });
+        console.log(sqlParams, "sqlParams");
+        conn.query(
+          // "select * from users where email = ?",
+          sql,
+          // "hch@example.com",
+          // ["hch@example.com"],
+          sqlParams,
+          (error, results) => {
+            if (!error) {
+              console.log(results, "results");
+              resolve(results);
+            } else {
+              console.log("error", error);
+              reject(error);
+            }
           }
-        });
+        );
       } else {
         console.log("err", err);
         reject(err);
