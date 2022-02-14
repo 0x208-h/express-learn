@@ -46,23 +46,15 @@ exports.db = (sql, sqlParams) => {
         //     reject(error);
         //   }
         // });
-        console.log(sqlParams, "sqlParams");
-        conn.query(
-          // "select * from users where email = ?",
-          sql,
-          // "hch@example.com",
-          // ["hch@example.com"],
-          sqlParams,
-          (error, results) => {
-            if (!error) {
-              console.log(results, "results");
-              resolve(results);
-            } else {
-              console.log("error", error);
-              reject(error);
-            }
+        conn.query(sql, sqlParams, (error, results) => {
+          if (!error) {
+            console.log(results, "results");
+            resolve(results);
+          } else {
+            console.log("error", error);
+            reject(error);
           }
-        );
+        });
       } else {
         console.log("err", err);
         reject(err);
