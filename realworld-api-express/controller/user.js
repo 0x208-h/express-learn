@@ -1,5 +1,7 @@
 const { db } = require("../util/db");
 const md5 = require("../util/md5");
+const jwt = require("../util/jwt");
+const { jwtSecret } = require("../config/config.default");
 // 用户注册
 exports.register = async function (req, res, next) {
   try {
@@ -20,7 +22,19 @@ exports.register = async function (req, res, next) {
 // 用户登录
 exports.login = async function (req, res, next) {
   try {
-    res.send("post /user/login");
+    console.log(req.user, "req");
+    const user = req.user;
+    // 数据验证
+    // 生成token
+    const token = await jwt.sign(
+      {
+        userId: user.id,
+      },
+      jwtSecret
+    );
+    delete user.password;
+
+    res.status(200).send({ ...user, token });
   } catch (err) {
     next(err);
   }
