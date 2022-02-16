@@ -42,11 +42,9 @@ exports.login = async function (req, res, next) {
 //获取当前登录用户
 exports.getCurrentUser = async function (req, res, next) {
   try {
+    // console.log(req.headers, 'headers')
     // res.send("get user");
-    const sql = "select * from users";
-    const ret = await db(sql);
-    console.log(ret, "res");
-    res.send(ret);
+    res.status(200).json({ user: req.user });
   } catch (err) {
     next(err);
   }

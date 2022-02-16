@@ -33,6 +33,24 @@ exports.createArticle = async (req, res, next) => {
     next(err);
   }
 };
+
+//更新文章
+exports.updateArticle = async (req, res, next) => {
+  try {
+    res.send("updateArticle");
+  } catch (err) {
+    next(err);
+  }
+};
+
+//删除文章
+exports.deleteArticle = async (req, res, next) => {
+  try {
+    res.send("deleteArticle");
+  } catch (err) {
+    next(err);
+  }
+};
 // 添加文章的评论
 exports.addArticleComment = async (req, res, next) => {
   try {

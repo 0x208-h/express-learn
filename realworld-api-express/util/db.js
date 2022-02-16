@@ -48,7 +48,7 @@ exports.db = (sql, sqlParams) => {
         // });
         conn.query(sql, sqlParams, (error, results) => {
           if (!error) {
-            console.log(results, "results");
+            // console.log(results, "results");
             resolve(results);
           } else {
             console.log("error", error);

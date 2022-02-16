@@ -1,5 +1,6 @@
 const express = require("express");
 const articleCtrl = require("../controller/article");
+const token = require("../middleware/token")
 const router = express.Router();
 
 //获取文章列表
@@ -12,10 +13,12 @@ router.get("/feed", articleCtrl.getFeedArticles);
 router.get("/:slug", articleCtrl.getArticle);
 
 //创建文章
-router.post("/create", articleCtrl.createArticle);
+router.post("/", token, articleCtrl.createArticle);
 
+//更新文章
+router.put("/:slug", articleCtrl.updateArticle);
 // 删除文章
-// router.delete
+router.delete("/:slug", articleCtrl.deleteArticle);
 
 //添加文章的评论
 router.post("/:slug/comments", articleCtrl.addArticleComment);
