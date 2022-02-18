@@ -30,7 +30,10 @@ exports.login = async function (req, res, next) {
       {
         userId: user.id,
       },
-      jwtSecret
+      jwtSecret,
+      {
+        expiresIn: 30,
+      }
     );
     delete user.password;
 
