@@ -20,7 +20,22 @@ exports.getFeedArticles = async (req, res, next) => {
 // 获取文章
 exports.getArticle = async (req, res, next) => {
   try {
-    res.send("get /:slug");
+    console.log(req.params.slug, "req.params.id");
+    // const sql = "SELECT * FROM articles WHERE id = ?";
+    // const ret = await db(sql, req.params.slug);
+    // const users = await db("select * from users where id = ?", ret[0].authorId);
+    // console.log(ret, "slug");
+    // ret[0].user = users[0]
+    const sql = "select * from articles inner join users on users.id = (select authorId from articles where id = ?)"
+    // const sql =
+      // "select * from users INNER JOIN ON users.id IN (SELECT authorId from articles where id= ? )";
+    const ret = await db(sql, req.params.slug);
+    console.log(ret, "slug");
+    if (ret.length > 0) {
+      res.status(200).send(ret[0]);
+    } else {
+      return res.status(404).end();
+    }
   } catch (err) {
     next(err);
   }
@@ -30,10 +45,11 @@ exports.getArticle = async (req, res, next) => {
 exports.createArticle = async (req, res, next) => {
   try {
     const data = req.body;
+    data.authorId = req.user[0].id;
     // data.createTime = new Date();
     console.log(req.user[0].id, req.user, "users");
     const sql = "INSERT INTO articles SET ?";
-    const ret = await db(sql, req.body);
+    const ret = await db(sql, data);
     const users = await db("select * from users where id = ?", [
       req.user[0].id,
     ]);
