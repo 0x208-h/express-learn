@@ -32,7 +32,7 @@ exports.login = async function (req, res, next) {
       },
       jwtSecret,
       {
-        expiresIn: 30,
+        expiresIn: 60 * 60 * 24,
       }
     );
     delete user.password;

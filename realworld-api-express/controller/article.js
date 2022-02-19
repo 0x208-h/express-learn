@@ -1,3 +1,4 @@
+const { db } = require("../util/db");
 // 获取文章列表
 exports.getArticles = async (req, res, next) => {
   try {
@@ -28,7 +29,18 @@ exports.getArticle = async (req, res, next) => {
 //创建文章
 exports.createArticle = async (req, res, next) => {
   try {
-    res.send("createArticle");
+    const data = req.body;
+    // data.createTime = new Date();
+    console.log(req.user[0].id, req.user, "users");
+    const sql = "INSERT INTO articles SET ?";
+    const ret = await db(sql, req.body);
+    const users = await db("select * from users where id = ?", [
+      req.user[0].id,
+    ]);
+    ret.author = users[0];
+    // console.log(ret, users,"ret");
+    // res.send("createArticle");
+    res.status(201).json(ret);
   } catch (err) {
     next(err);
   }
