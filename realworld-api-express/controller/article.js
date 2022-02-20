@@ -2,7 +2,21 @@ const { db } = require("../util/db");
 // 获取文章列表
 exports.getArticles = async (req, res, next) => {
   try {
-    res.send("get /");
+    let data = {};
+    const pageNum = req.query.pageNum,
+      pageSize = req.query.pageSize;
+    const sql1 = "select count(title) as total from articles";
+    const sql2 = "select * from articles limit ?,?";
+    const ret = await db(sql1);
+    const result = await db(sql2, [
+      (parseInt(pageNum) - 1) * parseInt(pageSize),
+      parseInt(pageSize),
+    ]);
+    data.total = ret[0].total;
+    data.list = result;
+    data.status = 200;
+    console.log(ret, result, "ret");
+    res.status(200).json(data);
   } catch (err) {
     next(err);
   }
@@ -26,9 +40,10 @@ exports.getArticle = async (req, res, next) => {
     // const users = await db("select * from users where id = ?", ret[0].authorId);
     // console.log(ret, "slug");
     // ret[0].user = users[0]
-    const sql = "select * from articles inner join users on users.id = (select authorId from articles where id = ?)"
+    const sql =
+      "select * from articles inner join users on users.id = (select authorId from articles where id = ?)";
     // const sql =
-      // "select * from users INNER JOIN ON users.id IN (SELECT authorId from articles where id= ? )";
+    // "select * from users INNER JOIN ON users.id IN (SELECT authorId from articles where id= ? )";
     const ret = await db(sql, req.params.slug);
     console.log(ret, "slug");
     if (ret.length > 0) {
